@@ -52,6 +52,7 @@ header, footer {
     display:         flex;
     justify-content: space-between;
     flex-direction: column;
+    padding-bottom: 15px;
 }
 
 .panel > .header {
@@ -97,7 +98,7 @@ body {
   background: #202020;
   text-align: center;
   color: #b0b0b0;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .chessground.tiny {
