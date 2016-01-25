@@ -1,30 +1,49 @@
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="assets/base.css">
-    <link rel="stylesheet" href="assets/theme.css">
-    <link rel="stylesheet" href="assets/desktop.css">
-  </head>
-  <body>
-    <script src="chessground.js"></script>
-    <script src="chess.min.js"></script>
-    <div class="container">
-        <div id="sidebar"></div>
-        <div id="header"></div>
-        <div id="content">
-            <div class="chessground normal light-wood-3d staunton coordinates"
-                id="chessBoard"></div>
-            <button onclick="resetGame()">Reset Game</button>
-            <input id="fenInput"/>
-            <button onclick="loadFen()">Load Fen</button>
-            <input id="moveOrig"/>
-            <input id="moveDest"/>
-            <button onclick="playMove()">Play Move</button>
-            <script src="index.js"></script>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="assets/base.css">
+        <link rel="stylesheet" href="assets/theme.css">
+        <link rel="stylesheet" href="assets/desktop.css">
+    </head>
+    <body>
+        <script src="chessground.js"></script>
+        <script src="chess.min.js"></script>
+        <header>header</header>
+        <div id='main'>
+            <div class="board-container">
+                <div class="chessground normal wood staunton coordinates"
+                    id="chessBoard"></div>
+                <script src="index.js"></script>
+            </div>
+            <div class="panel stats">
+                <div class="header">Stats</div>
+                <div>
+                    <label>Blacks Losses</label>
+                    <input disabled/>
+                    <label>White's Losses</label>
+                    <input disabled/>
+                </div>
+                <div>
+                    <label>Current Fen</label>
+                    <input />
+                    <label>Last Move</label>
+                    <input />
+                </div>
+            </div>
+            <div class="panel tools">
+                <div class="header">Tools</div>
+                <div>
+                    <label>Fen</label>
+                    <input />
+                    <button>Load Fen</button>
+                    <label>Move</label>
+                    <input />
+                    <button>Play Move</button>
+                </div>
+            </div>
         </div>
-        <div id="footer"></div>
-    </div>
-  </body>
+        <footer>footer</footer>
+    </body>
 </html>
 
