@@ -1,5 +1,4 @@
 var ground;
-var chess = new Chess();
 
 (function() {
     var fen;
@@ -12,14 +11,6 @@ var chess = new Chess();
     }
 
     var onMove = function(orig, dest) {
-        chess.move({from: orig, to: dest});
-        ground.set({
-            turnColor: chessToColor(chess),
-            movable: {
-                color: chessToColor(chess),
-                dests: chessToDests(chess)
-            }
-        });
         logMove(JSON.stringify({ "From": orig, "To": dest}));
     };
 
@@ -29,45 +20,46 @@ var chess = new Chess();
     ground = Chessground(document.getElementById('chessBoard'), {
         orientation: orientation,
         viewOnly: false,
-        turnColor: 'white',
+        turnColor: "white",
         animation: {
             duration: 500
         },
         movable: {
             free: true,
-            color: chessToColor(chess),
-            premove: true,
-            dests: chessToDests(chess),
+            color: "both",
+            dropOff: "trash",    // when a piece is dropped outside the board. "revert" | "trash"
             events: {
                 after: onMove
             }
         },
         drawable: {
             enabled: true
+        },
+        draggable: {
+            enabled: true,        // allow moves & premoves to use drag'n drop
+            distance: 3,          // minimum distance to initiate a drag, in pixels
+            squareTarget: false,  // display big square target; intended for mobile
+            centerPiece: true,    // center the piece on cursor at drag start
+            showGhost: true,      // show ghost of piece being dragged
         }
     });
     if (fen)
          ground.set({fen: fen});
+    showStatsEtc();
 })();
 
-function chessToDests(chess) {
-    var dests = {};
-    chess.SQUARES.forEach(function(s) {
-        var ms = chess.moves({square: s, verbose: true});
-        if (ms.length) dests[s] = ms.map(function(m) { return m.to; });
-    });
-    return dests;
-}
-
-function chessToColor(chess) {
-    return (chess.turn() == "w") ? "white" : "black";
-}
-
-function logMove(move) {
+function showStatsEtc() {
+    var diff = ground.getMaterialDiff();
+    setInnerHTML("blacksAdv", objToLines(diff.black));
+    setInnerHTML("whitesAdv", objToLines(diff.white));
     var fen = ground.getFen();
     console.log(fen);
     localStorage.setItem("fen", fen);
     setValue("currentFen", fen);
+}
+
+function logMove(move) {
+    showStatsEtc();
     setValue("lastMove", move);
     setValue("moveToPlay", "");
     document.getElementById("lastMove").select();
@@ -87,14 +79,26 @@ function LoadFen() {
     location.reload();
 }
 
+function objToLines(object) {
+    var val = JSON.stringify(object).split("\"").join("").split(",").join("<br/>").replace("{","").replace("}","");
+    return val.length > 0 ? val : "None";
+}
+
 function PlayMove() {
     var move = JSON.parse(getValue("moveToPlay"));
     ground.move(move.From, move.To);
     logMove(JSON.stringify(move));
 }
 
-function resetGame() {
+function ResetGame() {
     localStorage.removeItem("fen");
+    location.reload();
+}
+
+function ToggleOrientation() {
+    ground.toggleOrientation();
+    var orientation = ground.getOrientation();
+    localStorage.setItem("orientation", orientation);
     location.reload();
 }
 
@@ -104,4 +108,8 @@ function getValue(id) {
 
 function setValue(id, value) {
     document.getElementById(id).value = value;
+}
+
+function setInnerHTML(id, value) {
+    document.getElementById(id).innerHTML = value;
 }

@@ -14,20 +14,21 @@
             <div class="board-container">
                 <div class="chessground normal wood staunton coordinates"
                     id="chessBoard"></div>
-                <script src="index.js"></script>
             </div>
             <div class="panel stats">
                 <div class="header">Stats</div>
                 <div>
-                    <label>Black's Losses</label>
-                    <input id="blacksLosses" disabled/>
-                    <label>White's Losses</label>
-                    <input id="whitesLosses" disabled/>
+                    <label>Black's Advantages</label>
+                    <div class="list" id="blacksAdv" ></div>
+                    <label>White's Advantages</label>
+                    <div class="list" id="whitesAdv" ></div>
                 </div>
             </div>
             <div class="panel tools">
                 <div class="header">Tools</div>
                 <div>
+                    <button onclick="ToggleOrientation()">Toggle Orientation</button>
+                    <button onclick="ResetGame()">Reset Board</button>
                     <label>Fen</label>
                     <input id="fenToLoad"/>
                     <button onclick="LoadFen()">Load Fen</button>
@@ -38,12 +39,13 @@
             </div>
         </div>
         <footer>
-                <div>
-                    <label>Current Fen</label>
-                    <input id="currentFen" class="wide"/>
-                    <label>Last Move</label>
-                    <input id="lastMove"/>
-                </div>
+            <div>
+                <label>Current Fen</label>
+                <input id="currentFen" class="wide"/>
+                <label>Last Move</label>
+                <input id="lastMove"/>
+            </div>
+            <script src="index.js"></script>
         </footer>
     </body>
 </html>
