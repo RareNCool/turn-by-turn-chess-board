@@ -46,6 +46,16 @@ header, footer {
     border: 1px solid #eebb55;
 }
 
+header {
+    display: -webkit-flex;
+    display:         flex;
+    justify-content: space-between;
+}
+
+header > img {
+    height: 100px;
+}
+
 footer label {
     padding: 5px;
 }
