@@ -3,11 +3,11 @@ var ground;
 (function() {
     var fen;
     var orientation;
-    if(typeof(Storage) !== "undefined") {
+    if(typeof(Storage) !== "undefined" && localStorage !== undefined) {
         fen = localStorage.getItem("fen");
         orientation = localStorage.getItem("orientation");
     } else {
-        alert("Sorry! No Web Storage support..");
+        alert("Sorry! No local storage support... No changes will be saved and some functions will be broken!");
     }
 
     var onMove = function(orig, dest) {
@@ -54,12 +54,11 @@ function showStatsEtc() {
     setInnerHTML("whitesAdv", objToLines(diff.white));
     var fen = ground.getFen();
     console.log(fen);
-    localStorage.setItem("fen", fen);
     setValue("currentFen", fen);
+    localStorage.setItem("fen", fen);
 }
 
 function logMove(move) {
-    showStatsEtc();
     setValue("lastMove", move);
     setValue("moveToPlay", "");
     document.getElementById("lastMove").select();
@@ -70,6 +69,7 @@ function logMove(move) {
     } catch (err) {
         alert('Oops, unable to copy move to clipboard automatically! You will have to do it yourself');
     }
+    showStatsEtc();
 }
 
 function LoadFen() {
