@@ -6,10 +6,20 @@
         <link rel="stylesheet" href="assets/base.css">
         <link rel="stylesheet" href="assets/theme.css">
         <link rel="stylesheet" href="assets/desktop.css">
+        <script src="http://tasteslikechess.azurewebsites.net:80/Scripts/jquery-3.1.1.min.js"></script>
+        <script src="http://tasteslikechess.azurewebsites.net:80/Scripts/jquery.signalR-2.2.1.min.js"></script>
+        <script src="http://tasteslikechess.azurewebsites.net:80/signalr/hubs"></script>
+        <script src="./js/username.js"></script>
+        <script src="./js/connection.js"></script>
+        <script src="./js/queue.js"></script>
+        <script src="./js/match.js"></script>
+        <script src="./js/messages.js"></script>
     </head>
     <body>
         <script src="chessground.js"></script>
         <header>
+            <button onclick="joinQueue()">Join Queue</button>
+            <button onclick="leaveMatch()">Leave Match</button>
             <img src="assets/images/pieces/merida/wR.svg"></img>
             <div>Turn-By-Turn Chessboard</div>
             <img src="assets/images/pieces/merida/wR.svg"></img>
@@ -51,6 +61,42 @@
             </div>
             <script src="index.js"></script>
         </footer>
+        <script type="text/javascript">
+            function initialize () {
+                getUsername()
+                .then(initializeConnection)
+                .then(() => initializeQueue(queueChanged, queueChanged))
+                .then(() => initializeMatch(receiveMove, endMatch))
+                .then(openConnection)
+                .then(connected);
+            }
+
+            function queueChanged (count) {
+                console.log(count + " in queue");
+            }
+
+            function receiveMove (move) {
+                var moveParts = move.split(",");
+                var obj = {
+                    From: moveParts[0],
+                    To: moveParts[1]
+                };
+                var json = JSON.stringify(obj);
+                $("#moveToPlay").val(json);
+                PlayMove();
+            }
+
+            function endMatch (player) {
+                inMatchId = "";
+                alert("Match ended by " + player.username);
+            }
+
+            if (window.addEventListener)
+                window.addEventListener("load", initialize, false);
+            else if (window.attachEvent)
+                window.attachEvent("onload", initialize);
+            else window.onload = initialize;
+        </script>
     </body>
 </html>
 

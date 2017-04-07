@@ -12,6 +12,8 @@ var ground;
 
     var onMove = function(orig, dest) {
         logMove(JSON.stringify({ "From": orig, "To": dest}));
+        var move = `${orig},${dest}`;
+        match.server.makeMove(inMatchId, clientId, move);
     };
 
     if (!orientation)
